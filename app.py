@@ -53,7 +53,7 @@ def time_chart():
              time(hour=11, minute=18, second=00),
              time(hour=11, minute=18, second=15),
              time(hour=11, minute=18, second=30)]
-    return render_template('time_chart.html', values=temperatures, labels=times, legend=legend)
+    return render_template('index.html', values=temperatures, labels=times, legend=legend)
 
 
 if __name__ == "__main__":
