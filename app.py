@@ -5,6 +5,9 @@ from datetime import time
 
 app = Flask(__name__)
 
+@app.route("/")
+def main():
+    return render_template('index.html')
 
 @app.route("/simple_chart")
 def chart():
