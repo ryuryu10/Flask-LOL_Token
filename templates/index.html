@@ -29,7 +29,7 @@
                                     <div class="row align-items-center no-gutters">
                                         <div class="col me-2">
                                             <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>토큰 잔고</span></div>
-                                            <div class="text-dark fw-bold h5 mb-0"><span>40,000 Token</span></div>
+                                            <div class="text-dark fw-bold h5 mb-0"><span>{{current_token}} Token</span></div>
                                         </div>
                                         <div class="col-auto"><i class="fas fa-wallet fa-2x text-gray-300"></i></div>
                                     </div>
@@ -184,7 +184,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="chart-area">
-                                        <canvas id="myChart" width="600" height="400"></canvas>
+                                        <canvas id="myChart" style="width: 100%;height: 100%;"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -210,16 +210,10 @@
         // do not resize the chart canvas when its container does (keep at 600x400px)
         Chart.defaults.global.responsive = false;
   
-        var timeFormat = 'hh:mm:ss';
-  
-        function newDateString(hours, minutes, seconds) {
-          return moment().hour(hours).minute(minutes).second(seconds).format(timeFormat);
-        }
-  
         // define the chart data
         var chartData = {
           labels : [{% for item in labels %}
-                     newDateString( {{item.hour}}, {{item.minute}}, {{item.second}} ),
+                     "{{item}}",
                     {% endfor %}],
           datasets : [{
               label: '{{ legend }}',
@@ -251,13 +245,6 @@
         var holder = document.getElementById("myChart");
         var ctx = document.getElementById("myChart").getContext("2d");
   
-        // create a callback function for updating the caption
-        var original = Chart.defaults.global.legend.onClick;
-        Chart.defaults.global.legend.onClick = function(e, legendItem) {
-          update_caption(legendItem);
-          original.call(this, e, legendItem);
-        };
-  
         // create the chart using the chart canvas
         var myChart = new Chart(ctx, {
           type: 'line',
@@ -268,13 +255,26 @@
               mode: 'single',
               callbacks: {
                 label: function(tooltipItems, data) {
-                         firstPointCtx = "First Point Selected: (2:20PM, 72.3 degrees)";
                          return tooltipItems.yLabel + ' degrees';
                        }
               }
             },
           }
         });
+  
+        // get the text element below the chart
+        var pointSelected = document.getElementById("pointSelected");
+  
+        // create a callback function for updating the selected index on the chart
+        holder.onclick = function(evt){
+          var activePoint = myChart.getElementAtEvent(evt);
+          console.log(activePoint);
+          console.log('x:' + activePoint[0]._view.x);
+          console.log('maxWidth: ' + activePoint[0]._xScale.maxWidth);
+          console.log('y: ' + activePoint[0]._view.y);
+          console.log('index: ' + activePoint[0]._index);
+          pointSelected.innerHTML = 'Point selected... index: ' + activePoint[0]._index;
+        };
       </script>
 </body>
 
