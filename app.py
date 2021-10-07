@@ -1,12 +1,19 @@
 from flask import Flask
 from flask import render_template
 from datetime import time
-
+import glob
+import csv
 
 app = Flask(__name__)
 
 @app.route("/")
 def main():
+    for csv_files in [file for file in glob.glob("./data/*") if file.endswith(".csv")]:
+        opener = open(csv_files, 'r', encoding='utf-8')
+        reader = csv.reader(opener)
+        for line in reader:
+            print(line)
+        opener.close()
     return render_template('index.html')
 
 @app.route("/time_chart")
