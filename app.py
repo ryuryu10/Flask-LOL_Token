@@ -21,8 +21,8 @@ def main():
             total_token_data.append(line[2])
             date_data.append(line[0]+' '+line[1])
         opener.close()
-    AHSH = datetime.strptime(date_data[-1].split(" ")[0]+" "+date_data[-1].split(" ")[1],"%Y/%m/%d %H:%M:%S") #<---
-    BHSH = datetime.strptime(date_data[-5].split(" ")[0]+" "+date_data[-5].split(" ")[1],"%Y/%m/%d %H:%M:%S") #<---
+    AHSH = datetime.strptime(date_data[-1].split(" ")[0]+" "+date_data[-1].split(" ")[1],"%Y-%m-%d %H:%M:%S") #<---
+    BHSH = datetime.strptime(date_data[-5].split(" ")[0]+" "+date_data[-5].split(" ")[1],"%Y-%m-%d %H:%M:%S") #<---
     END_DATE = datetime.strptime("2021-11-9 6:00:00","%Y-%m-%d %H:%M:%S")
     now = time.localtime()
     NOW = "%04d-%02d-%02d %02d:%02d:%02d" % (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec)
