@@ -22,16 +22,18 @@ def main():
     print(date_data[-1].split(" ")[0]+" "+date_data[-1].split(" ")[1])
     AHSH = datetime.strptime(date_data[-1].split(" ")[0]+" "+date_data[-1].split(" ")[1],"%Y/%m/%d %H:%M:%S")
     BHSH = datetime.strptime(date_data[-5].split(" ")[0]+" "+date_data[-5].split(" ")[1],"%Y/%m/%d %H:%M:%S")
-    print(int(total_token_data[-1]), int(total_token_data[-5]), AHSH, BHSH, int(((AHSH- BHSH).seconds)))
+    END_DATE = datetime.strptime("2021-11-9 6:00:00","%Y-%m-%d %H:%M:%S")
+    NOW_TIME = datetime.now()
+    remaining_hash = int((END_DATE-NOW_TIME).seconds)
     xvc = (int(total_token_data[-1]) - int(total_token_data[-5])) / int(((AHSH- BHSH).seconds))
-    print(xvc * int(((AHSH- BHSH).seconds)))
     return render_template(
         'index.html', 
         values=total_token_data, 
         labels=date_data, 
         legend='패스토큰',
         current_token=total_token_data[-1],
-        hash=xvc * int(((AHSH- BHSH).seconds))
+        hash=xvc * int(((AHSH- BHSH).seconds)),
+        remaining_hash = remaining_hash
         )
 
 
