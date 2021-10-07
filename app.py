@@ -13,6 +13,7 @@ app = Flask(__name__)
 def main():
     total_token_data = []
     date_data = []
+    GOOD_CASH = []
     for csv_files in [file for file in glob.glob("./data/*") if file.endswith(".csv")]:
         opener = open(csv_files, 'r', encoding='utf-8')
         reader = csv.reader(opener)
@@ -27,10 +28,13 @@ def main():
     NOW = "%04d-%02d-%02d %02d:%02d:%02d" % (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec)
     NOW = datetime.strptime(NOW,"%Y-%m-%d %H:%M:%S")
     remaining_hash = (int((END_DATE - NOW).days) * 86400) / 720
-    print((len(total_token_data) / remaining_hash) * 100)
     xvc = (int(total_token_data[-1]) - int(total_token_data[-5])) / int(((AHSH- BHSH).seconds))
-    good = [i for i in range(total_token_data) if i > 0 == i]
-    print(good)
+    try:
+        for k in range(1, len(total_token_data)):
+            GOOD_CASH.append(int(total_token_data[k+1]) - int(total_token_data[k]))
+    except:
+        pass
+        
     return render_template(
         'index.html', 
         values=total_token_data, 
@@ -41,7 +45,8 @@ def main():
         remaining_hash = remaining_hash,
         Total_HASH = len(total_token_data),
         percent = round((len(total_token_data) / remaining_hash) * 100, 3),
-        LAST_TOKEN = total_token_data[-1],
+        LAST_TOKEN = GOOD_CASH[-1],
+        OK_SHARE = len([i for i in GOOD_CASH if int(i) > 0])
         )
 
 
