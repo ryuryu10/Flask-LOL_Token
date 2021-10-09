@@ -1,4 +1,4 @@
-# Welcome to StackEdit!
+# Flask LOL Token
 
 ### 사용전 주의사항
 1. [LOL_Token](https://github.com/ryuryu10/LOL_token)프로젝트에 있는 프로그램을 통해 로그를 생성해주셔야합니다. 
